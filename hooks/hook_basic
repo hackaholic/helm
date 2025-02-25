@@ -1,0 +1,22 @@
+Helm hooks allow you to run Kubernetes jobs at specific points in the release lifecycle. 
+These hooks can be used for pre-installation tasks, post-upgrade cleanups, database migrations, etc.
+
+# Common Helm Hooks
+Hook Name	    Triggered When?
+pre-install	    Before resources are created
+post-install	After resources are created
+pre-delete	    Before deletion begins
+post-delete	    After deletion is complete
+pre-upgrade	    Before an upgrade starts
+post-upgrade	After an upgrade is complete
+pre-rollback	Before rolling back to a previous release
+post-rollback	After a rollback is complete
+
+
+
+# Hook Deletion Policies
+Policy	Description
+before-hook-creation	                Deletes the job before creating a new hook job.
+hook-succeeded	                        Deletes the job only if it succeeds.
+hook-failed	                            Deletes the job only if it fails.
+before-hook-creation, hook-succeeded	Deletes before recreating, but only if successful.

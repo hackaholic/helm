@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pre-install-job
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  template:
+    spec:
+      containers:
+        - name: pre-install-job
+          image: ubuntu
+          command: ["sh", "-c", "echo '🔧 Pre-install Hook: Preparing for deployment...'"]
+      restartPolicy: Never
