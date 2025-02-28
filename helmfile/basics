@@ -1,0 +1,20 @@
+
+# The default name for a helmfile is helmfile.yaml
+
+
+# Install required dependencies using init
+helmfile init
+
+
+# Sync your Kubernetes cluster state to the desired one by running:
+helmfile apply
+ Use helmfile apply when you want to review changes before applying them.
+ Compares current state with desired state (diff), shows changes, and then applies them only if necessary. 
+ It fails if changes are detected and helm-diff is not installed.
+
+# helm sync
+Forces installation/upgrade of all releases in the Helmfile without checking for differences. 
+It ensures everything matches the Helmfile state.
+
+
+

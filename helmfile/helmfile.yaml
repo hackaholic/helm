@@ -1,0 +1,15 @@
+repositories:
+ - name: bitnami-community
+   url: https://charts.bitnami.com/bitnami
+
+releases:
+- name: redis
+  namespace: redis
+  chart: bitnami/redis
+  set:
+  - name: architecture
+    value: standalone
+  - name: master.persistence.enabled
+    value: false
+  - name: replica.persistence.enabled
+    value: false
