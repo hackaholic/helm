@@ -1,0 +1,8 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: hellopool
+  namespace: metallb-system
+spec:
+  addresses:
+  - 10.136.16.217/32

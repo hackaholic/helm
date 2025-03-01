@@ -3,6 +3,9 @@
 repositories:
   - name: ingress-nginx
     url: https://kubernetes.github.io/ingress-nginx
+  
+  - name: metallb
+    url: https://metallb.github.io/metallb
 
 ---
 
@@ -13,6 +16,7 @@ releases:
     createNamespace: true
     labels:
        app: server
+    wait: true
 
   - name: ingress-nginx
     chart: ./helm-charts/ingress-nginx
@@ -20,6 +24,10 @@ releases:
     createNamespace: true
     labels:
       app: ingress
+    needs:
+      - metallb-system/metallb
+      - metallb-system/metallb-pools
+    wait: true
 
   - name: ingress-rules
     chart: ./helm-charts/ingress-rules
@@ -27,6 +35,27 @@ releases:
     createNamespace: true
     labels:
       app: ingress-rules
+    wait: true
+  
+  - name: metallb
+    chart: metallb/metallb
+    createNamespace: true
+    namespace: metallb-system
+    labels:
+      app: metallb
+    wait: true
+  
+  - name: metallb-pools
+    chart: ./helm-charts/metallb-pools
+    createNamespace: true
+    namespace: metallb-system
+    labels:
+      app: metallb
+    needs:
+      - metallb-system/metallb
+    wait: true
 
-
-#  curl -H "Host: hello-world.example" http://ip
+# Notes:
+#  curl -H "Host: hello-world.example" http://ip     # for host based routing
+# if not using metalb need to patch pathc ingress controller
+# kubectl patch svc ingress-nginx-controller -n ingress-nginx -p '{"spec":{"externalIPs":["Node-ip"]}}'
