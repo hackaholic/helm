@@ -1,0 +1,32 @@
+---
+
+repositories:
+  - name: ingress-nginx
+    url: https://kubernetes.github.io/ingress-nginx
+
+---
+
+releases:
+  - name: nginx     # Helmfile automatically assigns the name field as a built-in label
+    chart: ./helm-charts/nginx
+    namespace: nginx
+    createNamespace: true
+    labels:
+       app: server
+
+  - name: ingress-nginx
+    chart: ./helm-charts/ingress-nginx
+    namespace: ingress-nginx
+    createNamespace: true
+    labels:
+      app: ingress
+
+  - name: ingress-rules
+    chart: ./helm-charts/ingress-rules
+    namespace: nginx
+    createNamespace: true
+    labels:
+      app: ingress-rules
+
+
+#  curl -H "Host: hello-world.example" http://ip

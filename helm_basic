@@ -136,3 +136,54 @@ Usage:
 helm template mysql bitnami/mysql 
 
 
+
+
+
+
+# HELM CHART STRUCTURE
+helm create hello-world
+hello-world/
+│── Chart.yaml
+│── values.yaml
+│── templates/
+│   │── deployment.yaml
+│   │── service.yaml
+│   │── configmap.yaml
+│   └── _helpers.tpl
+│── charts/
+│── .helmignore
+
+1. charts/ Directory
+
+    Purpose: Stores dependencies (other Helm charts).
+    Contents: If you depend on another chart, it gets stored here when you run helm dependency update.
+    Example:
+        If your chart depends on Redis, it will be downloaded here.
+
+2. templates/ Directory
+
+    Purpose: Contains all Kubernetes manifests that Helm processes.
+    Lexicographical Order: Helm processes files in this directory in alphabetical order.
+    Files:
+        deployment.yaml: Defines the Deployment resource.
+        service.yaml: Defines the Service resource.
+        configmap.yaml: Stores non-sensitive configuration.
+        _helpers.tpl: Contains reusable template functions (like labels, name formatting).
+
+Order of Execution (Example) Since Helm processes lexicographically:
+
+    _helpers.tpl (first but doesn’t create a resource, just defines functions)
+    configmap.yaml (ConfigMaps first because Deployments might use them)
+    deployment.yaml
+    service.yaml
+
+You can control execution using hooks, but otherwise, Helm follows alphabetical order.
+3. values.yaml
+
+    Purpose: Defines default values for templates.
+    Used in templates:
+        {{ .Values.deployment.replicas }} pulls from values.yaml.
+
+4. Chart.yaml
+
+    Purpose: Metadata about the Helm chart (name, version, dependencies).
