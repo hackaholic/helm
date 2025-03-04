@@ -6,6 +6,9 @@ repositories:
   
   - name: metallb
     url: https://metallb.github.io/metallb
+  
+  - name: longhorn
+    url: https://charts.longhorn.io
 
 ---
 
@@ -53,6 +56,13 @@ releases:
       app: metallb
     needs:
       - metallb-system/metallb
+    wait: true
+  
+  - name: longhorn
+    chart: longhorn/longhorn
+    version: 1.5.1
+    createNamespace: true
+    namespace: longhorn-system
     wait: true
 
 # Notes:
